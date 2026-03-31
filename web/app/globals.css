@@ -1,0 +1,45 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&display=swap');
+@import "tailwindcss";
+
+:root {
+  --red: #c24b46;
+  --orange: #d67035;
+  --yellow: #e8b056;
+  --charcoal: #2d3235;
+  --cream: #efeadd;
+  --green: #1d8f6d;
+  --muted: #5a5f63;
+}
+
+body {
+  font-family: 'JetBrains Mono', monospace;
+  background-color: #efeadd;
+  color: #2d3235;
+}
+
+.retro-shadow {
+  box-shadow: 6px 6px 0px 0px rgba(45, 50, 53, 0.2);
+}
+
+.retro-shadow-hard {
+  box-shadow: 5px 5px 0px 0px #2d3235;
+}
+
+.retro-shadow-hover {
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.retro-shadow-hover:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px 0px #2d3235;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #efeadd;
+}
+::-webkit-scrollbar-thumb {
+  background: #2d3235;
+  border: 2px solid #efeadd;
+}

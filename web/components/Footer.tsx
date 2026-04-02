@@ -85,8 +85,14 @@ export default function Footer() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 mt-10 pt-6 border-t border-gray-200 text-center text-[#5a5f63] text-xs">
-        © {new Date().getFullYear()} Kodata: — Une initiative des alumni du RLC Madagascar Chapter
+      <div className="max-w-7xl mx-auto px-6 mt-10 pt-6 border-t border-gray-200 flex flex-col sm:flex-row justify-between items-center gap-2 text-[#5a5f63] text-xs">
+        <span>© {new Date().getFullYear()} Kodata: — Une initiative des alumni du RLC Madagascar Chapter</span>
+        <span>
+          Made with ❤️ by{" "}
+          <a href="https://dts.dabil.io" target="_blank" rel="noopener noreferrer" className="font-semibold text-[#2d3235] hover:text-[#1d8f6d] transition-colors">
+            DTS
+          </a>
+        </span>
       </div>
     </footer>
   );

@@ -9,7 +9,7 @@ const sections = [
     content: [
       "Le site Kodata: est édité par l'initiative communautaire Kodata:, une communauté informelle de passionnés de la data à Madagascar, née au sein du réseau YALI RLC (Regional Leadership Center) Madagascar Chapter.",
       "Kodata: n'est pas une entité juridique enregistrée. Il s'agit d'une initiative citoyenne à but non lucratif, portée par des alumni engagés dans le développement de Madagascar.",
-      "Contact : contact@kodata.mg",
+      "Contact : contact@kodata-community.org",
     ],
   },
   {
@@ -32,7 +32,7 @@ const sections = [
     content: [
       "Kodata: s'engage à respecter la confidentialité des données personnelles de ses membres et visiteurs, conformément aux principes du Règlement Général sur la Protection des Données (RGPD) et aux bonnes pratiques en vigueur.",
       "Les données collectées (via les formulaires d'adhésion ou de contact) sont utilisées exclusivement pour la gestion de la communauté et la communication avec ses membres. Elles ne sont jamais vendues ni transmises à des tiers à des fins commerciales.",
-      "Conformément à la réglementation applicable, vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour exercer ce droit, contactez-nous à : contact@kodata.mg",
+      "Conformément à la réglementation applicable, vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour exercer ce droit, contactez-nous à : contact@kodata-community.org",
     ],
   },
   {
@@ -107,8 +107,8 @@ export default function MentionsLegalesPage() {
           <p className="text-white/70 leading-relaxed">
             Pour toute question relative à ces mentions légales ou à vos données personnelles,
             contactez-nous à{" "}
-            <a href="mailto:contact@kodata.mg" className="text-[#e8b056] hover:underline">
-              contact@kodata.mg
+            <a href="mailto:contact@kodata-community.org" className="text-[#e8b056] hover:underline">
+              contact@kodata-community.org
             </a>
           </p>
         </div>

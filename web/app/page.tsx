@@ -7,8 +7,23 @@ import {
   Users,
   ChevronRight,
 } from "lucide-react";
+import { createClient } from "@/lib/supabase/server";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const supabase = await createClient();
+
+  const [
+    { count: nbMembres },
+    { count: nbProjets },
+    { count: nbEvenements },
+    { data: dernierMembre },
+  ] = await Promise.all([
+    supabase.from("membres").select("*", { count: "exact", head: true }),
+    supabase.from("projets").select("*", { count: "exact", head: true }),
+    supabase.from("evenements").select("*", { count: "exact", head: true }),
+    supabase.from("membres").select("prenom").order("created_at", { ascending: false }).limit(1),
+  ]);
+
   return (
     <>
       {/* ── HERO ── */}
@@ -76,9 +91,9 @@ export default function HomePage() {
             {/* Stats */}
             <div className="grid grid-cols-3 gap-4 border-t border-white/10 pt-6">
               {[
-                { label: "membres", value: "50+" },
-                { label: "projets", value: "0" },
-                { label: "événements", value: "1" },
+                { label: "membres", value: nbMembres ?? 0 },
+                { label: "projets", value: nbProjets ?? 0 },
+                { label: "événements", value: nbEvenements ?? 0 },
               ].map((s) => (
                 <div key={s.label} className="text-center">
                   <div className="text-3xl font-bold text-[#e8b056]">{s.value}</div>
@@ -88,14 +103,16 @@ export default function HomePage() {
             </div>
 
             {/* Last activity */}
-            <div className="mt-6 pt-4 border-t border-white/10">
-              <div className="flex items-start gap-3">
-                <div className="w-2 h-2 rounded-full bg-[#1d8f6d] mt-1.5 flex-shrink-0 animate-pulse" />
-                <p className="text-sm text-white/60 font-mono">
-                  <span className="text-[#1d8f6d]">Elias</span> a rejoint la communauté
-                </p>
+            {dernierMembre?.[0] && (
+              <div className="mt-6 pt-4 border-t border-white/10">
+                <div className="flex items-start gap-3">
+                  <div className="w-2 h-2 rounded-full bg-[#1d8f6d] mt-1.5 flex-shrink-0 animate-pulse" />
+                  <p className="text-sm text-white/60 font-mono">
+                    <span className="text-[#1d8f6d]">{dernierMembre[0].prenom}</span> a rejoint la communauté
+                  </p>
+                </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       </section>

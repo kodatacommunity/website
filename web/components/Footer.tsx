@@ -46,7 +46,7 @@ export default function Footer() {
           </p>
           <p className="text-[#5a5f63] text-sm mt-2 leading-relaxed">
             Une initiative des alumni du{" "}
-            <span className="font-semibold text-[#2d3235]">YALI RLC Madagascar Chapter</span>.
+            <span className="font-semibold text-[#2d3235]">RLC Madagascar Chapter</span>.
           </p>
           <div className="flex gap-3 mt-4">
             {socials.map((s) => (

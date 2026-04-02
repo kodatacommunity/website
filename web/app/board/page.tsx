@@ -100,10 +100,10 @@ export default async function BoardPage() {
       {/* ── RLC CONNECTION ── */}
       <section className="w-full bg-[#2d3235] text-[#efeadd] py-16 border-y-2 border-black">
         <div className="max-w-3xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-semibold mb-4">Alumni du YALI RLC Madagascar Chapter</h2>
+          <h2 className="text-3xl font-semibold mb-4">Alumni du RLC Madagascar Chapter</h2>
           <p className="text-lg text-white/70 leading-relaxed">
             Tous les membres du comité exécutif sont des alumni du{" "}
-            <span className="text-[#e8b056] font-semibold">YALI RLC Madagascar Chapter</span>, un réseau
+            <span className="text-[#e8b056] font-semibold">RLC Madagascar Chapter</span>, un réseau
             de leaders formés pour impulser le changement à Madagascar. Kodata: est l&apos;expression
             concrète de leur engagement collectif pour la data.
           </p>

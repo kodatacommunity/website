@@ -8,6 +8,7 @@ type Evenement = {
   description: string;
   jour: string;
   mois: string;
+  date: string | null;
   type: string;
   lieu: string;
   heure: string;
@@ -18,11 +19,22 @@ type Evenement = {
   ordre: number;
 };
 
+const MOIS_FR = ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil", "Aoû", "Sep", "Oct", "Nov", "Déc"];
+
+function dateToJourMois(dateStr: string): { jour: string; mois: string } {
+  const d = new Date(dateStr + "T12:00:00");
+  return {
+    jour: String(d.getDate()).padStart(2, "0"),
+    mois: MOIS_FR[d.getMonth()],
+  };
+}
+
 const EMPTY: Omit<Evenement, "id"> = {
   titre: "",
   description: "",
   jour: "",
   mois: "",
+  date: null,
   type: "Meetup",
   lieu: "",
   heure: "",
@@ -133,25 +145,25 @@ export default function EvenementsAdminPage() {
                 className="w-full border-2 border-[#2d3235] px-3 py-2 bg-[#efeadd] text-[#2d3235] focus:outline-none focus:bg-white"
               />
             </div>
-            <div>
-              <label className="block text-xs font-bold uppercase text-[#2d3235] mb-1">Jour (ex: 05)</label>
+            <div className="sm:col-span-2">
+              <label className="block text-xs font-bold uppercase text-[#2d3235] mb-1">Date *</label>
               <input
-                type="text"
-                value={form.jour}
-                onChange={(e) => set("jour", e.target.value)}
-                placeholder="05"
+                type="date"
+                value={form.date ?? ""}
+                onChange={(e) => {
+                  const val = e.target.value;
+                  if (val) {
+                    const { jour, mois } = dateToJourMois(val);
+                    setForm((f) => ({ ...f, date: val, jour, mois }));
+                  } else {
+                    setForm((f) => ({ ...f, date: null, jour: "", mois: "" }));
+                  }
+                }}
                 className="w-full border-2 border-[#2d3235] px-3 py-2 bg-[#efeadd] text-[#2d3235] focus:outline-none focus:bg-white"
               />
-            </div>
-            <div>
-              <label className="block text-xs font-bold uppercase text-[#2d3235] mb-1">Mois (ex: Avr)</label>
-              <input
-                type="text"
-                value={form.mois}
-                onChange={(e) => set("mois", e.target.value)}
-                placeholder="Avr"
-                className="w-full border-2 border-[#2d3235] px-3 py-2 bg-[#efeadd] text-[#2d3235] focus:outline-none focus:bg-white"
-              />
+              {form.jour && form.mois && (
+                <p className="text-xs text-[#5a5f63] mt-1">Affiché : {form.jour} {form.mois}</p>
+              )}
             </div>
             <div>
               <label className="block text-xs font-bold uppercase text-[#2d3235] mb-1">Type</label>

@@ -19,10 +19,18 @@ export default async function EvenementsPage() {
   const { data: tous } = await supabase
     .from("evenements")
     .select("*")
-    .order("ordre");
+    .order("date", { ascending: true });
 
-  const aVenir = (tous ?? []).filter((e) => !e.passe);
-  const passes = (tous ?? []).filter((e) => e.passe);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  function isPasse(e: { date: string | null; passe: boolean }) {
+    if (e.date) return new Date(e.date) < today;
+    return e.passe;
+  }
+
+  const aVenir = (tous ?? []).filter((e) => !isPasse(e));
+  const passes = (tous ?? []).filter((e) => isPasse(e)).reverse();
 
   const prochainEvent = aVenir[0] ?? null;
   const evenements = aVenir.slice(1);

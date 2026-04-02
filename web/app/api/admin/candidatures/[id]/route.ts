@@ -46,8 +46,8 @@ export async function PATCH(
       photo_url: candidature.photo_url ?? null,
       color: "bg-[#1d8f6d]",
       langages: candidature.stacks ?? [],
-      linkedin: "",
-      facebook: "",
+      linkedin: candidature.linkedin ?? "",
+      facebook: candidature.facebook ?? "",
     });
 
     if (membreError) {

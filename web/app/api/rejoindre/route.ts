@@ -3,7 +3,7 @@ import { createAdminClient } from "@/lib/supabase/admin";
 
 export async function POST(req: NextRequest) {
   const body = await req.json();
-  const { prenom, nom, email, ville, profession, niveau, motivation, stacks, photo_url } = body;
+  const { prenom, nom, email, ville, profession, niveau, motivation, stacks, photo_url, linkedin, facebook } = body;
 
   if (!prenom || !nom || !email) {
     return NextResponse.json({ error: "Champs obligatoires manquants." }, { status: 400 });
@@ -35,6 +35,8 @@ export async function POST(req: NextRequest) {
     motivation: motivation || null,
     stacks: stacksArray,
     photo_url: photo_url || null,
+    linkedin: linkedin || null,
+    facebook: facebook || null,
   });
 
   if (error) {

@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
 
   const supabase = createAdminClient();
   const { error: uploadError } = await supabase.storage
-    .from("candidatures")
+    .from("Candidatures")
     .upload(fileName, buffer, { contentType: file.type, upsert: false });
 
   if (uploadError) {
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
   }
 
   const { data: { publicUrl } } = supabase.storage
-    .from("candidatures")
+    .from("Candidatures")
     .getPublicUrl(fileName);
 
   return NextResponse.json({ url: publicUrl });

@@ -155,6 +155,8 @@ export default function RejoindrePage() {
     profession: "",
     niveau: "",
     motivation: "",
+    linkedin: "",
+    facebook: "",
   });
   const [stacks, setStacks] = useState<string[]>([]);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
@@ -382,6 +384,43 @@ export default function RejoindrePage() {
                   <p className="text-xs text-[#5a5f63]">
                     Tape pour chercher, Entrée pour confirmer. Si ton outil n&apos;existe pas, il sera ajouté automatiquement.
                   </p>
+                </div>
+              </div>
+
+              {/* Réseaux sociaux */}
+              <div>
+                <p className="text-xs font-semibold uppercase tracking-widest text-[#2d3235] mb-4">
+                  Réseaux sociaux <span className="font-normal normal-case text-[#5a5f63]">— optionnel</span>
+                </p>
+                <div className="grid sm:grid-cols-2 gap-6">
+                  <div className="flex flex-col gap-2">
+                    <label htmlFor="linkedin" className="text-sm font-semibold uppercase tracking-widest text-[#2d3235]">
+                      LinkedIn
+                    </label>
+                    <input
+                      id="linkedin"
+                      name="linkedin"
+                      type="url"
+                      value={form.linkedin}
+                      onChange={handleChange}
+                      placeholder="https://linkedin.com/in/…"
+                      className={inputClass}
+                    />
+                  </div>
+                  <div className="flex flex-col gap-2">
+                    <label htmlFor="facebook" className="text-sm font-semibold uppercase tracking-widest text-[#2d3235]">
+                      Facebook
+                    </label>
+                    <input
+                      id="facebook"
+                      name="facebook"
+                      type="url"
+                      value={form.facebook}
+                      onChange={handleChange}
+                      placeholder="https://facebook.com/…"
+                      className={inputClass}
+                    />
+                  </div>
                 </div>
               </div>
 

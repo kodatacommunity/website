@@ -1,161 +1,34 @@
 import { Linkedin, Twitter, Mail, FlaskConical, Handshake, Megaphone, Truck } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
+import { type LucideIcon } from "lucide-react";
 
-const executif = [
-  {
-    name: "Prénom Nom",
-    role: "Président",
-    job: "Data Engineer · [Entreprise]",
-    bio: "Passionné de data engineering et de cloud, il porte la vision stratégique de Kodata: avec le souci constant de l'impact sur Madagascar.",
-    initials: "PN",
-    color: "bg-[#c24b46]",
-    linkedin: "#",
-    twitter: "#",
-  },
-  {
-    name: "Prénom Nom",
-    role: "Vice-Présidente",
-    job: "Data Analyst · [Entreprise]",
-    bio: "Spécialiste de la visualisation et de la data storytelling, elle coordonne les événements et les partenariats de la communauté.",
-    initials: "PN",
-    color: "bg-[#d67035]",
-    linkedin: "#",
-    twitter: "#",
-  },
-  {
-    name: "Prénom Nom",
-    role: "Secrétaire Général",
-    job: "Data Scientist · [Entreprise]",
-    bio: "Expert en machine learning appliqué aux problématiques africaines, il anime les projets collaboratifs de la communauté.",
-    initials: "PN",
-    color: "bg-[#e8b056]",
-    linkedin: "#",
-    twitter: "#",
-  },
-  {
-    name: "Prénom Nom",
-    role: "Trésorière",
-    job: "BI Developer · [Entreprise]",
-    bio: "Développeuse BI et passionnée d'open data, elle gère les ressources et développe les partenariats institutionnels.",
-    initials: "PN",
-    color: "bg-[#1d8f6d]",
-    linkedin: "#",
-    twitter: "#",
-  },
-];
+const ROLE_ICONS: Record<string, LucideIcon> = {
+  "Responsable Partenariat": Handshake,
+  "Responsable Communication": Megaphone,
+  "Responsable Logistique": Truck,
+};
 
-const scientifique = [
-  {
-    name: "Prénom Nom",
-    expertise: "Data Engineering",
-    job: "Senior Data Engineer · [Entreprise]",
-    initials: "PN",
-    linkedin: "#",
-  },
-  {
-    name: "Prénom Nom",
-    expertise: "Machine Learning",
-    job: "ML Engineer · [Entreprise]",
-    initials: "PN",
-    linkedin: "#",
-  },
-  {
-    name: "Prénom Nom",
-    expertise: "Data Analytics",
-    job: "Data Analyst · [Entreprise]",
-    initials: "PN",
-    linkedin: "#",
-  },
-  {
-    name: "Prénom Nom",
-    expertise: "Data Visualisation",
-    job: "BI Developer · [Entreprise]",
-    initials: "PN",
-    linkedin: "#",
-  },
-  {
-    name: "Prénom Nom",
-    expertise: "Open Data",
-    job: "Consultant Data · [Entreprise]",
-    initials: "PN",
-    linkedin: "#",
-  },
-  {
-    name: "Prénom Nom",
-    expertise: "Data Science",
-    job: "Data Scientist · [Entreprise]",
-    initials: "PN",
-    linkedin: "#",
-  },
-];
-
-const organisationnel = [
-  {
-    role: "Responsable Partenariat",
-    name: "Prénom Nom",
-    initials: "PN",
-    icon: Handshake,
-    color: "bg-[#c24b46]",
-    desc: "Développe et entretient les relations avec les partenaires techniques et institutionnels de Kodata:",
-    linkedin: "#",
-    twitter: "#",
-  },
-  {
-    role: "Responsable Communication",
-    name: "Prénom Nom",
-    initials: "PN",
-    icon: Megaphone,
-    color: "bg-[#e8b056]",
-    desc: "Pilote la stratégie de communication, gère les réseaux sociaux et la visibilité de la communauté.",
-    linkedin: "#",
-    twitter: "#",
-  },
-  {
-    role: "Responsable Logistique",
-    name: "Prénom Nom",
-    initials: "PN",
-    icon: Truck,
-    color: "bg-[#d67035]",
-    desc: "Coordonne l'organisation des événements et assure la bonne gestion des ressources matérielles.",
-    linkedin: "#",
-    twitter: "#",
-  },
-];
-
-function MemberCard({ member }: { member: typeof executif[0] }) {
-  return (
-    <div className="bg-white border-2 border-[#2d3235] retro-shadow flex flex-col hover:translate-y-[-4px] transition-transform duration-300">
-      <div className={`${member.color} h-40 flex items-center justify-center border-b-2 border-[#2d3235]`}>
-        <div className="w-20 h-20 rounded-full bg-white/20 border-2 border-white flex items-center justify-center text-3xl font-bold text-white">
-          {member.initials}
-        </div>
-      </div>
-      <div className="p-6 flex flex-col flex-1 gap-3">
-        <div>
-          <div className="inline-block border border-[#2d3235] px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-[#5a5f63] mb-2">
-            {member.role}
-          </div>
-          <h3 className="text-xl font-semibold">{member.name}</h3>
-          <p className="text-sm text-[#5a5f63]">{member.job}</p>
-        </div>
-        <p className="text-sm text-[#5a5f63] leading-relaxed flex-1">{member.bio}</p>
-        <div className="flex gap-3 pt-2 border-t border-gray-100">
-          <a href={member.linkedin} className="p-2 border-2 border-[#2d3235] hover:bg-[#2d3235] hover:text-white transition-colors" aria-label="LinkedIn">
-            <Linkedin className="w-4 h-4" />
-          </a>
-          <a href={member.twitter} className="p-2 border-2 border-[#2d3235] hover:bg-[#2d3235] hover:text-white transition-colors" aria-label="Twitter">
-            <Twitter className="w-4 h-4" />
-          </a>
-          <a href="mailto:contact@kodata.mg" className="p-2 border-2 border-[#2d3235] hover:bg-[#2d3235] hover:text-white transition-colors" aria-label="Email">
-            <Mail className="w-4 h-4" />
-          </a>
-        </div>
-      </div>
-    </div>
-  );
+function getIcon(role: string): LucideIcon {
+  for (const key of Object.keys(ROLE_ICONS)) {
+    if (role.toLowerCase().includes(key.toLowerCase().split(" ")[1])) return ROLE_ICONS[key];
+  }
+  return Handshake;
 }
 
-export default function BoardPage() {
+export default async function BoardPage() {
+  const supabase = await createClient();
+  const { data: membres } = await supabase
+    .from("board_members")
+    .select("*")
+    .order("ordre");
+
+  const tous = membres ?? [];
+  const executif = tous.filter((m) => m.equipe === "executif");
+  const scientifique = tous.filter((m) => m.equipe === "scientifique");
+  const organisationnel = tous.filter((m) => m.equipe === "operationnel");
+
   return (
     <>
       {/* ── HERO ── */}
@@ -174,14 +47,55 @@ export default function BoardPage() {
         </div>
       </section>
 
-      {/* ── GRILLE COMITÉ EXÉCUTIF ── */}
-      <section className="w-full max-w-7xl mx-auto px-6 pb-24">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {executif.map((member) => (
-            <MemberCard key={member.name + member.role} member={member} />
-          ))}
-        </div>
-      </section>
+      {/* ── COMITÉ EXÉCUTIF ── */}
+      {executif.length > 0 && (
+        <section className="w-full max-w-7xl mx-auto px-6 pb-24">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {executif.map((m) => (
+              <div key={m.id} className="bg-white border-2 border-[#2d3235] retro-shadow flex flex-col hover:translate-y-[-4px] transition-transform duration-300">
+                <div className={`${m.color} h-40 flex items-center justify-center border-b-2 border-[#2d3235]`}>
+                  {m.photo_url ? (
+                    <Image src={m.photo_url} alt={`${m.prenom} ${m.nom}`} width={80} height={80} className="w-20 h-20 rounded-full object-cover border-2 border-white" />
+                  ) : (
+                    <div className="w-20 h-20 rounded-full bg-white/20 border-2 border-white flex items-center justify-center text-3xl font-bold text-white">
+                      {m.initiales}
+                    </div>
+                  )}
+                </div>
+                <div className="p-6 flex flex-col flex-1 gap-3">
+                  <div>
+                    <div className="inline-block border border-[#2d3235] px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-[#5a5f63] mb-2">
+                      {m.role}
+                    </div>
+                    <h3 className="text-xl font-semibold">{m.prenom} {m.nom}</h3>
+                    <p className="text-sm text-[#5a5f63]">{m.job}</p>
+                  </div>
+                  <p className="text-sm text-[#5a5f63] leading-relaxed flex-1">{m.bio}</p>
+                  <div className="flex gap-3 pt-2 border-t border-gray-100">
+                    {m.linkedin ? (
+                      <a href={m.linkedin} target="_blank" rel="noopener noreferrer" className="p-2 border-2 border-[#2d3235] hover:bg-[#2d3235] hover:text-white transition-colors" aria-label="LinkedIn">
+                        <Linkedin className="w-4 h-4" />
+                      </a>
+                    ) : (
+                      <span className="p-2 border-2 border-gray-200 text-gray-300"><Linkedin className="w-4 h-4" /></span>
+                    )}
+                    {m.twitter ? (
+                      <a href={m.twitter} target="_blank" rel="noopener noreferrer" className="p-2 border-2 border-[#2d3235] hover:bg-[#2d3235] hover:text-white transition-colors" aria-label="Twitter">
+                        <Twitter className="w-4 h-4" />
+                      </a>
+                    ) : (
+                      <span className="p-2 border-2 border-gray-200 text-gray-300"><Twitter className="w-4 h-4" /></span>
+                    )}
+                    <a href="mailto:contact@kodata.mg" className="p-2 border-2 border-[#2d3235] hover:bg-[#2d3235] hover:text-white transition-colors" aria-label="Email">
+                      <Mail className="w-4 h-4" />
+                    </a>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* ── RLC CONNECTION ── */}
       <section className="w-full bg-[#2d3235] text-[#efeadd] py-16 border-y-2 border-black">
@@ -197,110 +111,116 @@ export default function BoardPage() {
       </section>
 
       {/* ── COMITÉ ORGANISATIONNEL ── */}
-      <section className="w-full max-w-7xl mx-auto px-6 py-24">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="p-2 bg-[#c24b46] text-white border-2 border-[#2d3235] shadow-[4px_4px_0px_0px_#2d3235]">
-            <Handshake className="w-5 h-5" />
+      {organisationnel.length > 0 && (
+        <section className="w-full max-w-7xl mx-auto px-6 py-24">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="p-2 bg-[#c24b46] text-white border-2 border-[#2d3235] shadow-[4px_4px_0px_0px_#2d3235]">
+              <Handshake className="w-5 h-5" />
+            </div>
+            <span className="text-xs font-semibold uppercase tracking-widest text-[#5a5f63]">Organisation & Opérations</span>
           </div>
-          <span className="text-xs font-semibold uppercase tracking-widest text-[#5a5f63]">Organisation & Opérations</span>
-        </div>
-        <h2 className="text-4xl font-semibold tracking-tight mb-4">Comité organisationnel</h2>
-        <p className="text-xl text-[#5a5f63] leading-relaxed max-w-xl mb-14">
-          Ce comité assure le bon fonctionnement opérationnel de la communauté, des partenariats à la logistique en passant par la communication.
-        </p>
-        <div className="grid sm:grid-cols-3 gap-8">
-          {organisationnel.map((m) => {
-            const Icon = m.icon;
-            return (
-              <div
-                key={m.role}
-                className="bg-white border-2 border-[#2d3235] retro-shadow hover:translate-y-[-4px] transition-transform duration-300 flex flex-col"
-              >
-                <div className={`${m.color} h-40 flex items-center justify-center border-b-2 border-[#2d3235]`}>
-                  <div className="w-20 h-20 rounded-full bg-white/20 border-2 border-white flex items-center justify-center">
-                    <Icon className="w-8 h-8 text-white" />
+          <h2 className="text-4xl font-semibold tracking-tight mb-4">Comité organisationnel</h2>
+          <p className="text-xl text-[#5a5f63] leading-relaxed max-w-xl mb-14">
+            Ce comité assure le bon fonctionnement opérationnel de la communauté, des partenariats à la logistique en passant par la communication.
+          </p>
+          <div className="grid sm:grid-cols-3 gap-8">
+            {organisationnel.map((m) => {
+              const Icon = getIcon(m.role);
+              return (
+                <div key={m.id} className="bg-white border-2 border-[#2d3235] retro-shadow hover:translate-y-[-4px] transition-transform duration-300 flex flex-col">
+                  <div className={`${m.color} h-40 flex items-center justify-center border-b-2 border-[#2d3235]`}>
+                    {m.photo_url ? (
+                      <Image src={m.photo_url} alt={`${m.prenom} ${m.nom}`} width={80} height={80} className="w-20 h-20 rounded-full object-cover border-2 border-white" />
+                    ) : (
+                      <div className="w-20 h-20 rounded-full bg-white/20 border-2 border-white flex items-center justify-center">
+                        <Icon className="w-8 h-8 text-white" />
+                      </div>
+                    )}
                   </div>
-                </div>
-                <div className="p-6 flex flex-col flex-1 gap-3">
-                  <div>
-                    <div className="inline-block border border-[#2d3235] px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-[#5a5f63] mb-2">
-                      {m.role}
+                  <div className="p-6 flex flex-col flex-1 gap-3">
+                    <div>
+                      <div className="inline-block border border-[#2d3235] px-2 py-0.5 text-xs font-semibold uppercase tracking-wide text-[#5a5f63] mb-2">
+                        {m.role}
+                      </div>
+                      <h3 className="text-xl font-semibold">{m.prenom} {m.nom}</h3>
                     </div>
-                    <h3 className="text-xl font-semibold">{m.name}</h3>
-                  </div>
-                  <p className="text-sm text-[#5a5f63] leading-relaxed flex-1">{m.desc}</p>
-                  <div className="flex gap-3 pt-2 border-t border-gray-100">
-                    <a href={m.linkedin} className="p-2 border-2 border-[#2d3235] hover:bg-[#2d3235] hover:text-white transition-colors" aria-label="LinkedIn">
-                      <Linkedin className="w-4 h-4" />
-                    </a>
-                    <a href={m.twitter} className="p-2 border-2 border-[#2d3235] hover:bg-[#2d3235] hover:text-white transition-colors" aria-label="Twitter">
-                      <Twitter className="w-4 h-4" />
-                    </a>
-                    <a href="mailto:contact@kodata.mg" className="p-2 border-2 border-[#2d3235] hover:bg-[#2d3235] hover:text-white transition-colors" aria-label="Email">
-                      <Mail className="w-4 h-4" />
-                    </a>
+                    <p className="text-sm text-[#5a5f63] leading-relaxed flex-1">{m.bio}</p>
+                    <div className="flex gap-3 pt-2 border-t border-gray-100">
+                      {m.linkedin ? (
+                        <a href={m.linkedin} target="_blank" rel="noopener noreferrer" className="p-2 border-2 border-[#2d3235] hover:bg-[#2d3235] hover:text-white transition-colors" aria-label="LinkedIn">
+                          <Linkedin className="w-4 h-4" />
+                        </a>
+                      ) : (
+                        <span className="p-2 border-2 border-gray-200 text-gray-300"><Linkedin className="w-4 h-4" /></span>
+                      )}
+                      {m.twitter ? (
+                        <a href={m.twitter} target="_blank" rel="noopener noreferrer" className="p-2 border-2 border-[#2d3235] hover:bg-[#2d3235] hover:text-white transition-colors" aria-label="Twitter">
+                          <Twitter className="w-4 h-4" />
+                        </a>
+                      ) : (
+                        <span className="p-2 border-2 border-gray-200 text-gray-300"><Twitter className="w-4 h-4" /></span>
+                      )}
+                      <a href="mailto:contact@kodata.mg" className="p-2 border-2 border-[#2d3235] hover:bg-[#2d3235] hover:text-white transition-colors" aria-label="Email">
+                        <Mail className="w-4 h-4" />
+                      </a>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* ── COMITÉ SCIENTIFIQUE ET TECHNIQUE ── */}
-      <section className="w-full max-w-7xl mx-auto px-6 py-24">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
-          <div>
-            <div className="flex items-center gap-3 mb-4">
-              <div className="p-2 bg-[#1d8f6d] text-white border-2 border-[#2d3235] shadow-[4px_4px_0px_0px_#2d3235]">
-                <FlaskConical className="w-5 h-5" />
-              </div>
-              <span className="text-xs font-semibold uppercase tracking-widest text-[#5a5f63]">Expertise & Contenu</span>
-            </div>
-            <h2 className="text-4xl font-semibold tracking-tight mb-4">
-              Comité scientifique et technique
-            </h2>
-            <p className="text-xl text-[#5a5f63] leading-relaxed max-w-xl">
-              Composé de membres actifs de la communauté, ce comité oriente les contenus,
-              valide les projets et garantit la qualité des productions de Kodata:
-            </p>
+              );
+            })}
           </div>
-          <Link
-            href="https://tally.so/r/7RW189" target="_blank" rel="noopener noreferrer"
-            className="flex-shrink-0 inline-flex items-center gap-2 border-2 border-[#2d3235] px-6 py-3 font-semibold hover:bg-[#e8b056] transition-colors"
-          >
-            Rejoindre le comité
-          </Link>
-        </div>
+        </section>
+      )}
 
-        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
-          {scientifique.map((m) => (
-            <div
-              key={m.name + m.expertise}
-              className="bg-white border-2 border-[#2d3235] p-6 retro-shadow flex items-center gap-5 hover:translate-y-[-3px] transition-transform duration-300"
-            >
-              {/* Avatar compact */}
-              <div className="w-14 h-14 flex-shrink-0 bg-[#efeadd] border-2 border-[#2d3235] flex items-center justify-center text-xl font-bold text-[#2d3235]">
-                {m.initials}
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="inline-block bg-[#1d8f6d]/10 border border-[#1d8f6d]/30 text-[#1d8f6d] text-xs font-semibold px-2 py-0.5 mb-1">
-                  {m.expertise}
+      {/* ── COMITÉ SCIENTIFIQUE ── */}
+      {scientifique.length > 0 && (
+        <section className="w-full max-w-7xl mx-auto px-6 py-24">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14">
+            <div>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="p-2 bg-[#1d8f6d] text-white border-2 border-[#2d3235] shadow-[4px_4px_0px_0px_#2d3235]">
+                  <FlaskConical className="w-5 h-5" />
                 </div>
-                <h3 className="font-semibold leading-snug truncate">{m.name}</h3>
-                <p className="text-xs text-[#5a5f63] truncate">{m.job}</p>
+                <span className="text-xs font-semibold uppercase tracking-widest text-[#5a5f63]">Expertise & Contenu</span>
               </div>
-              <a
-                href={m.linkedin}
-                className="flex-shrink-0 p-2 border-2 border-[#2d3235] hover:bg-[#2d3235] hover:text-white transition-colors"
-                aria-label="LinkedIn"
-              >
-                <Linkedin className="w-4 h-4" />
-              </a>
+              <h2 className="text-4xl font-semibold tracking-tight mb-4">Comité scientifique et technique</h2>
+              <p className="text-xl text-[#5a5f63] leading-relaxed max-w-xl">
+                Composé de membres actifs de la communauté, ce comité oriente les contenus,
+                valide les projets et garantit la qualité des productions de Kodata:
+              </p>
             </div>
-          ))}
-        </div>
-      </section>
+            <Link href="https://tally.so/r/7RW189" target="_blank" rel="noopener noreferrer"
+              className="flex-shrink-0 inline-flex items-center gap-2 border-2 border-[#2d3235] px-6 py-3 font-semibold hover:bg-[#e8b056] transition-colors">
+              Rejoindre le comité
+            </Link>
+          </div>
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+            {scientifique.map((m) => (
+              <div key={m.id} className="bg-white border-2 border-[#2d3235] p-6 retro-shadow flex items-center gap-5 hover:translate-y-[-3px] transition-transform duration-300">
+                <div className="w-14 h-14 flex-shrink-0 bg-[#efeadd] border-2 border-[#2d3235] flex items-center justify-center text-xl font-bold text-[#2d3235] overflow-hidden">
+                  {m.photo_url ? (
+                    <Image src={m.photo_url} alt={`${m.prenom} ${m.nom}`} width={56} height={56} className="w-full h-full object-cover" />
+                  ) : (
+                    m.initiales
+                  )}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="inline-block bg-[#1d8f6d]/10 border border-[#1d8f6d]/30 text-[#1d8f6d] text-xs font-semibold px-2 py-0.5 mb-1">
+                    {m.role}
+                  </div>
+                  <h3 className="font-semibold leading-snug truncate">{m.prenom} {m.nom}</h3>
+                  <p className="text-xs text-[#5a5f63] truncate">{m.job}</p>
+                </div>
+                {m.linkedin && (
+                  <a href={m.linkedin} target="_blank" rel="noopener noreferrer" className="flex-shrink-0 p-2 border-2 border-[#2d3235] hover:bg-[#2d3235] hover:text-white transition-colors" aria-label="LinkedIn">
+                    <Linkedin className="w-4 h-4" />
+                  </a>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* ── CTA ── */}
       <section className="w-full max-w-3xl mx-auto px-6 py-16 text-center">
@@ -309,16 +229,12 @@ export default function BoardPage() {
           Rejoignez la communauté et participez activement à la construction de Kodata:
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link
-            href="https://tally.so/r/7RW189" target="_blank" rel="noopener noreferrer"
-            className="bg-[#1d8f6d] text-white text-lg px-8 py-4 border-2 border-[#2d3235] retro-shadow-hard hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#2d3235] transition-all font-semibold"
-          >
+          <Link href="https://tally.so/r/7RW189" target="_blank" rel="noopener noreferrer"
+            className="bg-[#1d8f6d] text-white text-lg px-8 py-4 border-2 border-[#2d3235] retro-shadow-hard hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#2d3235] transition-all font-semibold">
             Rejoindre la communauté
           </Link>
-          <Link
-            href="/contact"
-            className="bg-transparent text-[#2d3235] text-lg px-8 py-4 border-2 border-[#2d3235] hover:bg-[#e8b056] transition-colors font-semibold"
-          >
+          <Link href="/contact"
+            className="bg-transparent text-[#2d3235] text-lg px-8 py-4 border-2 border-[#2d3235] hover:bg-[#e8b056] transition-colors font-semibold">
             Contacter le comité
           </Link>
         </div>

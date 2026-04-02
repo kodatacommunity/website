@@ -1,69 +1,15 @@
 import { ArrowRight, Building2, GraduationCap, Laptop, Network } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
 
-const partenaires = [
-  {
-    nom: "RLC Madagascar Chapter",
-    type: "Fondateur",
-    typeColor: "bg-[#c24b46] text-white",
-    desc: "Réseau de leaders à l'initiative de Kodata:. Partenaire fondateur et soutien stratégique de la communauté.",
-    logo: "/logo_rlc2.svg",
-    logoBg: "bg-transparent",
-    initiales: "RLC",
-    color: "bg-[#c24b46]",
-  },
-  {
-    nom: "École 42",
-    type: "Technique",
-    typeColor: "bg-[#1d8f6d] text-white",
-    desc: "École de coding partenaire, hébergeant les événements Kodata: et fournissant un cadre technique d'excellence.",
-    logo: "/logo_42.svg",
-    logoBg: "bg-transparent",
-    initiales: "42",
-    color: "bg-[#1d8f6d]",
-  },
-  {
-    nom: "Dabilio",
-    type: "Technique",
-    typeColor: "bg-[#1d8f6d] text-white",
-    desc: "Partenaire technique soutenant Kodata: avec ses outils et son expertise au service de la communauté data.",
-    logo: "/logo_dabilio2.svg",
-    logoBg: "bg-transparent",
-    initiales: "DA",
-    color: "bg-[#1d8f6d]",
-  },
-  {
-    nom: "Databridge Madagascar",
-    type: "Technique",
-    typeColor: "bg-[#1d8f6d] text-white",
-    desc: "Partenaire technique soutenant Kodata: avec ses outils et son expertise au service de la communauté data.",
-    logo: "/logo_databridge.svg",
-    logoBg: "bg-transparent",
-    initiales: "DB",
-    color: "bg-[#1d8f6d]",
-  },
-  {
-    nom: "Partenaire Institutionnel",
-    type: "Institutionnel",
-    typeColor: "bg-[#d67035] text-white",
-    desc: "Organisations gouvernementales et institutions publiques soutenant la culture data à Madagascar.",
-    logo: null,
-    logoBg: null,
-    initiales: "PI",
-    color: "bg-[#d67035]",
-  },
-  {
-    nom: "Université Partenaire",
-    type: "Académique",
-    typeColor: "bg-[#e8b056] text-[#2d3235]",
-    desc: "Établissements d'enseignement supérieur et de recherche collaborant avec la communauté Kodata:.",
-    logo: null,
-    logoBg: null,
-    initiales: "UP",
-    color: "bg-[#e8b056]",
-  },
-];
+const TYPE_COLORS: Record<string, string> = {
+  Technique: "bg-[#1d8f6d] text-white",
+  Institutionnel: "bg-[#d67035] text-white",
+  Académique: "bg-[#e8b056] text-[#2d3235]",
+  Médias: "bg-[#c24b46] text-white",
+  Fondateur: "bg-[#c24b46] text-white",
+};
 
 const typesPartenariat = [
   {
@@ -97,7 +43,11 @@ const typesPartenariat = [
   },
 ];
 
-export default function PartenairesPage() {
+export default async function PartenairesPage() {
+  const supabase = await createClient();
+  const { data } = await supabase.from("partenaires").select("*").order("ordre");
+  const partenaires = data ?? [];
+
   return (
     <>
       {/* ── HERO ── */}
@@ -117,38 +67,41 @@ export default function PartenairesPage() {
       </section>
 
       {/* ── GRILLE PARTENAIRES ── */}
-      <section className="w-full max-w-7xl mx-auto px-6 pb-24">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {partenaires.map((p) => (
-            <div
-              key={p.nom}
-              className="bg-white border-2 border-[#2d3235] retro-shadow flex flex-col hover:translate-y-[-4px] transition-transform duration-300"
-            >
-              {/* Logo */}
-              <div className={`${p.color} h-36 flex items-center justify-center border-b-2 border-[#2d3235]`}>
-                {p.logo ? (
-                  <div className={`${p.logoBg} p-4 flex items-center justify-center`}>
-                    <Image src={p.logo} alt={p.nom} width={p.nom === "École 42" || p.nom === "Databridge Madagascar" || p.nom === "Dabilio" || p.nom === "RLC Madagascar Chapter" ? 200 : 100} height={p.nom === "École 42" || p.nom === "Databridge Madagascar" || p.nom === "Dabilio" || p.nom === "RLC Madagascar Chapter" ? 120 : 60} className="object-contain" />
-                  </div>
-                ) : (
-                  <div className="w-16 h-16 bg-white/20 border-2 border-white flex items-center justify-center text-2xl font-bold text-white font-mono">
-                    {p.initiales}
-                  </div>
-                )}
+      {partenaires.length > 0 && (
+        <section className="w-full max-w-7xl mx-auto px-6 pb-24">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            {partenaires.map((p) => (
+              <div key={p.id} className="bg-white border-2 border-[#2d3235] retro-shadow flex flex-col hover:translate-y-[-4px] transition-transform duration-300">
+                <div className={`${p.bg_color} h-40 flex items-center justify-center border-b-2 border-[#2d3235] p-4`}>
+                  {p.logo_url ? (
+                    <div className="bg-white border-2 border-[#2d3235] w-full h-full flex items-center justify-center p-3">
+                      <Image
+                        src={p.logo_url}
+                        alt={p.nom}
+                        width={160}
+                        height={72}
+                        className="object-contain max-h-16 w-auto"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-16 h-16 bg-white/20 border-2 border-white flex items-center justify-center text-2xl font-bold text-white font-mono">
+                      {p.nom.slice(0, 2).toUpperCase()}
+                    </div>
+                  )}
+                </div>
+                <div className="p-6 flex flex-col flex-1 gap-3">
+                  <span className={`inline-block text-xs font-semibold px-2 py-0.5 w-fit ${TYPE_COLORS[p.type] ?? "bg-[#2d3235] text-white"}`}>
+                    {p.type}
+                  </span>
+                  <h3 className="text-lg font-semibold">{p.nom}</h3>
+                </div>
               </div>
-              <div className="p-6 flex flex-col flex-1 gap-3">
-                <span className={`inline-block text-xs font-semibold px-2 py-0.5 w-fit ${p.typeColor}`}>
-                  {p.type}
-                </span>
-                <h3 className="text-lg font-semibold">{p.nom}</h3>
-                <p className="text-[#5a5f63] text-sm leading-relaxed flex-1">{p.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </section>
+            ))}
+          </div>
+        </section>
+      )}
 
-      {/* ── SECTION DEVENIR PARTENAIRE ── */}
+      {/* ── DEVENIR PARTENAIRE ── */}
       <section className="w-full bg-[#2d3235] text-[#efeadd] py-24 border-y-2 border-black">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-16">
@@ -163,11 +116,10 @@ export default function PartenairesPage() {
               de la culture data à Madagascar.
             </p>
           </div>
-
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {typesPartenariat.map((t) => (
               <div key={t.title} className="bg-white/5 border-2 border-white/20 p-6 hover:bg-white/10 transition-colors">
-                <div className={`p-3 ${t.color} ${t.iconClass ?? "text-white"} border-2 border-[#efeadd] shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] w-fit mb-5`}>
+                <div className={`p-3 ${t.color} ${"iconClass" in t ? t.iconClass : "text-white"} border-2 border-[#efeadd] shadow-[4px_4px_0px_0px_rgba(255,255,255,0.2)] w-fit mb-5`}>
                   {t.icon}
                 </div>
                 <h3 className="text-xl font-semibold mb-2">{t.title}</h3>
@@ -183,12 +135,9 @@ export default function PartenairesPage() {
               </div>
             ))}
           </div>
-
           <div className="text-center mt-12">
-            <Link
-              href="/contact"
-              className="inline-flex items-center gap-3 bg-[#e8b056] text-[#2d3235] px-10 py-4 border-2 border-[#efeadd] font-bold hover:bg-[#efeadd] transition-colors text-lg"
-            >
+            <Link href="/contact"
+              className="inline-flex items-center gap-3 bg-[#e8b056] text-[#2d3235] px-10 py-4 border-2 border-[#efeadd] font-bold hover:bg-[#efeadd] transition-colors text-lg">
               Proposer un partenariat <ArrowRight className="w-5 h-5" />
             </Link>
           </div>

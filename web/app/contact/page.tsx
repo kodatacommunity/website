@@ -268,9 +268,7 @@ export default function ContactPage() {
             </p>
           </div>
           <a
-            href="https://tally.so/r/7RW189"
-            target="_blank"
-            rel="noopener noreferrer"
+            href="/rejoindre"
             className="flex-shrink-0 inline-flex items-center gap-3 bg-[#e8b056] text-[#2d3235] px-8 py-4 border-2 border-[#efeadd] font-bold hover:bg-[#efeadd] transition-colors text-lg"
           >
             Rejoindre Kodata: <ArrowRight className="w-5 h-5" />

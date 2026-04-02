@@ -32,7 +32,7 @@ export default function HomePage() {
 
           <div className="flex flex-col sm:flex-row gap-4 pt-2">
             <Link
-              href="https://tally.so/r/7RW189" target="_blank" rel="noopener noreferrer"
+              href="/rejoindre"
               className="bg-[#1d8f6d] text-white text-lg px-8 py-4 border-2 border-[#2d3235] retro-shadow-hard hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#2d3235] transition-all font-semibold flex items-center justify-center gap-3"
             >
               Rejoindre la communauté
@@ -222,7 +222,7 @@ export default function HomePage() {
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Link
-            href="https://tally.so/r/7RW189" target="_blank" rel="noopener noreferrer"
+            href="/rejoindre"
             className="bg-[#1d8f6d] text-white text-xl px-10 py-4 border-2 border-[#2d3235] retro-shadow-hard hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#2d3235] transition-all font-semibold flex items-center justify-center gap-3"
           >
             Rejoindre <ArrowRight className="w-5 h-5" />

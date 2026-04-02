@@ -18,7 +18,7 @@ type Membre = {
 };
 
 const PAR_PAGE = 12;
-const LIEN_REJOINDRE = "https://tally.so/r/7RW189";
+const LIEN_REJOINDRE = "/rejoindre";
 
 const langageColors: Record<string, string> = {
   Python: "bg-[#1d8f6d]/10 border-[#1d8f6d]/40 text-[#1d8f6d]",

@@ -189,7 +189,7 @@ export default async function BoardPage() {
                 valide les projets et garantit la qualité des productions de Kodata:
               </p>
             </div>
-            <Link href="https://tally.so/r/7RW189" target="_blank" rel="noopener noreferrer"
+            <Link href="/rejoindre"
               className="flex-shrink-0 inline-flex items-center gap-2 border-2 border-[#2d3235] px-6 py-3 font-semibold hover:bg-[#e8b056] transition-colors">
               Rejoindre le comité
             </Link>
@@ -229,7 +229,7 @@ export default async function BoardPage() {
           Rejoignez la communauté et participez activement à la construction de Kodata:
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <Link href="https://tally.so/r/7RW189" target="_blank" rel="noopener noreferrer"
+          <Link href="/rejoindre"
             className="bg-[#1d8f6d] text-white text-lg px-8 py-4 border-2 border-[#2d3235] retro-shadow-hard hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#2d3235] transition-all font-semibold">
             Rejoindre la communauté
           </Link>

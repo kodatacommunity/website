@@ -2,8 +2,9 @@ import { createAdminClient } from "@/lib/supabase/admin";
 import Link from "next/link";
 
 const SECTIONS = [
+  { href: "/admin/candidatures", label: "Candidatures", table: "candidatures", color: "bg-[#e8b056]" },
   { href: "/admin/board", label: "Board", table: "board_members", color: "bg-[#1d8f6d]" },
-  { href: "/admin/projets", label: "Projets", table: "projets", color: "bg-[#e8b056]" },
+  { href: "/admin/projets", label: "Projets", table: "projets", color: "bg-[#d67035]" },
   { href: "/admin/evenements", label: "Événements", table: "evenements", color: "bg-[#d67035]" },
   { href: "/admin/membres", label: "Membres", table: "membres", color: "bg-[#c24b46]" },
   { href: "/admin/partenaires", label: "Partenaires", table: "partenaires", color: "bg-[#2d3235]" },

@@ -49,7 +49,7 @@ export default function Nav() {
           </Link>
         ))}
         <Link
-          href="https://tally.so/r/7RW189" target="_blank" rel="noopener noreferrer"
+          href="/rejoindre"
           className="bg-[#2d3235] text-[#efeadd] px-5 py-2 border-2 border-[#2d3235] retro-shadow-hover font-semibold"
         >
           Rejoindre
@@ -81,7 +81,7 @@ export default function Nav() {
             </Link>
           ))}
           <Link
-            href="https://tally.so/r/7RW189" target="_blank" rel="noopener noreferrer"
+            href="/rejoindre"
             onClick={() => setOpen(false)}
             className="bg-[#2d3235] text-[#efeadd] px-5 py-3 text-center border-2 border-[#2d3235] font-semibold"
           >

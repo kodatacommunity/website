@@ -140,7 +140,7 @@ export default function AProposPage() {
         <h2 className="text-4xl font-semibold tracking-tight mb-4">Rejoignez l&apos;aventure</h2>
         <p className="text-xl text-[#5a5f63] mb-10">Faites partie de la communauté qui construit la culture data à Madagascar.</p>
         <Link
-          href="https://tally.so/r/7RW189" target="_blank" rel="noopener noreferrer"
+          href="/rejoindre"
           className="inline-flex items-center gap-3 bg-[#1d8f6d] text-white text-xl px-10 py-4 border-2 border-[#2d3235] retro-shadow-hard hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#2d3235] transition-all font-semibold"
         >
           Rejoindre Kodata: <ArrowRight className="w-5 h-5" />

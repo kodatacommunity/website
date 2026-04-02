@@ -1,0 +1,32 @@
+import { NextRequest, NextResponse } from "next/server";
+import { createAdminClient } from "@/lib/supabase/admin";
+
+export async function POST(request: NextRequest) {
+  const formData = await request.formData();
+  const file = formData.get("file") as File | null;
+
+  if (!file) {
+    return NextResponse.json({ error: "Aucun fichier fourni." }, { status: 400 });
+  }
+
+  const ext = file.name.split(".").pop();
+  const fileName = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+
+  const bytes = await file.arrayBuffer();
+  const buffer = Buffer.from(bytes);
+
+  const supabase = createAdminClient();
+  const { error: uploadError } = await supabase.storage
+    .from("candidatures")
+    .upload(fileName, buffer, { contentType: file.type, upsert: false });
+
+  if (uploadError) {
+    return NextResponse.json({ error: uploadError.message }, { status: 500 });
+  }
+
+  const { data: { publicUrl } } = supabase.storage
+    .from("candidatures")
+    .getPublicUrl(fileName);
+
+  return NextResponse.json({ url: publicUrl });
+}

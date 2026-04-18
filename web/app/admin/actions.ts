@@ -19,6 +19,21 @@ export async function login(
   redirect("/admin");
 }
 
+export async function forgotPassword(
+  _prevState: { error?: string; success?: boolean } | null,
+  formData: FormData
+) {
+  const supabase = await createClient();
+  const email = formData.get("email") as string;
+
+  const { error } = await supabase.auth.resetPasswordForEmail(email, {
+    redirectTo: `${process.env.NEXT_PUBLIC_SITE_URL}/auth/callback?type=recovery`,
+  });
+
+  if (error) return { error: "Erreur lors de l'envoi de l'email." };
+  return { success: true };
+}
+
 export async function logout() {
   const supabase = await createClient();
   await supabase.auth.signOut();

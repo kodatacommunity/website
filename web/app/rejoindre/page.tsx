@@ -378,11 +378,11 @@ export default function RejoindrePage() {
 
                 <div className="flex flex-col gap-2">
                   <label className="text-sm font-semibold uppercase tracking-widest text-[#2d3235]">
-                    Stacks / Outils
+                    Domaines / Stacks / Outils
                   </label>
                   <StacksPicker selected={stacks} onChange={setStacks} />
                   <p className="text-xs text-[#5a5f63]">
-                    Tape pour chercher, Entrée pour confirmer. Si ton outil n&apos;existe pas, il sera ajouté automatiquement.
+                    Tape pour chercher, Entrée pour confirmer. Si ton outil / Stack / Domaine n&apos;existe pas, il sera ajouté automatiquement.
                   </p>
                 </div>
               </div>

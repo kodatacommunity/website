@@ -149,12 +149,17 @@ export default function AnnuaireClient({ membres }: { membres: Membre[] }) {
                 </div>
                 <div className="p-4 flex flex-col flex-1 gap-3">
                   <h3 className="font-semibold text-[#2d3235] leading-snug">{m.prenom} {m.nom}</h3>
-                  <div className="flex flex-wrap gap-1 flex-1">
-                    {m.langages.map((lang) => (
-                      <span key={lang} className={`text-xs px-2 py-0.5 border font-medium ${getBadgeClass(lang)}`}>
+                  <div className="flex flex-wrap gap-1 min-h-[52px] content-start">
+                    {m.langages.slice(0, 4).map((lang) => (
+                      <span key={lang} className={`inline-flex items-center h-6 text-xs px-2 border font-medium whitespace-nowrap ${getBadgeClass(lang)}`}>
                         {lang}
                       </span>
                     ))}
+                    {m.langages.length > 4 && (
+                      <span className="inline-flex items-center h-6 text-xs px-2 border border-[#2d3235]/30 bg-[#2d3235]/5 text-[#5a5f63] font-medium">
+                        +{m.langages.length - 4}
+                      </span>
+                    )}
                   </div>
                   <div className="flex gap-2 pt-2 border-t border-gray-100">
                     {m.linkedin ? (

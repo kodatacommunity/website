@@ -184,6 +184,12 @@ export default function RejoindrePage() {
     setLoading(true);
     setError("");
 
+    if (!photoFile) {
+      setError("Une photo de profil est requise.");
+      setLoading(false);
+      return;
+    }
+
     let photo_url: string | null = null;
 
     if (photoFile) {
@@ -427,7 +433,7 @@ export default function RejoindrePage() {
               {/* Photo */}
               <div className="flex flex-col gap-2">
                 <label className="text-sm font-semibold uppercase tracking-widest text-[#2d3235]">
-                  Photo de profil
+                  Photo de profil <span className="text-[#c24b46]">*</span>
                 </label>
                 <div className="flex items-center gap-5">
                   {photoPreview ? (
@@ -466,7 +472,7 @@ export default function RejoindrePage() {
                       onChange={handlePhotoChange}
                       className="hidden"
                     />
-                    <p className="text-xs text-[#5a5f63] mt-1.5">Optionnel · JPG, PNG, WEBP</p>
+                    <p className="text-xs text-[#5a5f63] mt-1.5">Requis · JPG, PNG, WEBP</p>
                   </div>
                 </div>
               </div>

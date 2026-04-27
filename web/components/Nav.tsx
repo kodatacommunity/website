@@ -17,7 +17,14 @@ const links = [
     ],
   },
   { href: "/projets", label: "Projets" },
-  { href: "/evenements", label: "Événements" },
+  {
+    href: "/evenements",
+    label: "Événements",
+    children: [
+      { href: "/evenements", label: "Tous les événements" },
+      { href: "/evenements/dataskills", label: "DataSkills" },
+    ],
+  },
   { href: "/annuaire", label: "Annuaire" },
   { href: "/partenaires", label: "Partenaires" },
 ];
@@ -25,14 +32,15 @@ const links = [
 export default function Nav() {
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
+  const dropdownRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   useEffect(() => {
     function onClickOutside(e: MouseEvent) {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setDropdownOpen(false);
-      }
+      const isInsideAnyDropdown = Object.values(dropdownRefs.current).some(
+        (ref) => ref && ref.contains(e.target as Node)
+      );
+      if (!isInsideAnyDropdown) setOpenDropdown(null);
     }
     document.addEventListener("mousedown", onClickOutside);
     return () => document.removeEventListener("mousedown", onClickOutside);
@@ -55,25 +63,31 @@ export default function Nav() {
       <div className="hidden lg:flex gap-7 text-base font-medium items-center">
         {links.map((l) =>
           l.children ? (
-            <div key={l.href} ref={dropdownRef} className="relative">
+            <div
+              key={l.href}
+              ref={(el) => { dropdownRefs.current[l.href] = el; }}
+              className="relative"
+            >
               <button
-                onClick={() => setDropdownOpen((v) => !v)}
+                onClick={() => setOpenDropdown(openDropdown === l.href ? null : l.href)}
                 className={`flex items-center gap-1 hover:text-[#1d8f6d] transition-colors underline-offset-4 decoration-2 ${
-                  pathname === l.href || pathname === "/board"
+                  l.children.some((c) => pathname === c.href) || pathname === l.href
                     ? "text-[#1d8f6d] underline"
                     : "hover:underline"
                 }`}
               >
                 {l.label}
-                <ChevronDown className={`w-4 h-4 transition-transform ${dropdownOpen ? "rotate-180" : ""}`} />
+                <ChevronDown
+                  className={`w-4 h-4 transition-transform ${openDropdown === l.href ? "rotate-180" : ""}`}
+                />
               </button>
-              {dropdownOpen && (
-                <div className="absolute top-full left-0 mt-2 bg-[#efeadd] border-2 border-[#2d3235] shadow-[4px_4px_0px_0px_#2d3235] min-w-[160px] z-50">
+              {openDropdown === l.href && (
+                <div className="absolute top-full left-0 mt-2 bg-[#efeadd] border-2 border-[#2d3235] shadow-[4px_4px_0px_0px_#2d3235] min-w-[180px] z-50">
                   {l.children.map((child) => (
                     <Link
                       key={child.href}
                       href={child.href}
-                      onClick={() => setDropdownOpen(false)}
+                      onClick={() => setOpenDropdown(null)}
                       className={`block px-5 py-3 text-sm font-medium border-b border-[#2d3235] last:border-0 hover:bg-[#2d3235] hover:text-[#efeadd] transition-colors ${
                         pathname === child.href ? "text-[#1d8f6d] font-semibold" : ""
                       }`}

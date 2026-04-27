@@ -197,15 +197,6 @@ function CandidatureForm({ appel, onClose }: { appel: Appel; onClose: () => void
 export default function DataskillsClient({ appels }: { appels: Appel[] }) {
   const [selectedAppel, setSelectedAppel] = useState<Appel | null>(null);
 
-  if (appels.length === 0) {
-    return (
-      <div className="border-2 border-[#2d3235] bg-white px-10 pt-10 pb-16 text-center shadow-[4px_4px_0px_0px_#2d3235] mb-1">
-        <p className="text-[#5a5f63] text-lg mb-2">Aucun appel à contributeur ouvert pour le moment.</p>
-        <p className="text-[#5a5f63] text-sm">Revenez bientôt ou suivez-nous sur nos réseaux.</p>
-      </div>
-    );
-  }
-
   return (
     <>
       <div className="flex flex-col gap-6">

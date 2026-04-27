@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { CheckCircle, XCircle, Clock } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { CheckCircle, XCircle, Clock, Upload, X, Image as ImageIcon } from "lucide-react";
 
 type Evenement = {
   id: string;
@@ -18,6 +18,7 @@ type Evenement = {
   passe: boolean;
   participants: number | null;
   ordre: number;
+  photos: string[];
 };
 
 type Demande = {
@@ -56,6 +57,7 @@ const EMPTY: Omit<Evenement, "id"> = {
   passe: false,
   participants: null,
   ordre: 0,
+  photos: [],
 };
 
 const TYPES = ["Meetup", "Workshop", "Hackathon", "Conférence", "Autre"];
@@ -78,6 +80,9 @@ export default function EvenementsAdminPage() {
   const [form, setForm] = useState<Omit<Evenement, "id">>(EMPTY);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+  const photoInputRef = useRef<HTMLInputElement>(null);
 
   // --- Demandes state ---
   const [demandes, setDemandes] = useState<Demande[]>([]);
@@ -118,7 +123,7 @@ export default function EvenementsAdminPage() {
 
   function startEdit(item: Evenement) {
     const { id, ...rest } = item;
-    setForm(rest);
+    setForm({ ...rest, photos: rest.photos ?? [] });
     setEditingId(id);
     setError("");
     setShowForm(true);
@@ -164,6 +169,34 @@ export default function EvenementsAdminPage() {
     });
     setProcessingDemande(null);
     fetchDemandes();
+  }
+
+  async function handlePhotoUpload(e: React.ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(e.target.files ?? []);
+    if (files.length === 0) return;
+    setUploadingPhoto(true);
+    try {
+      const urls: string[] = [];
+      for (const file of files) {
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("bucket", "evenements");
+        const res = await fetch("/api/admin/upload", { method: "POST", body: fd });
+        const json = await res.json();
+        if (!res.ok) throw new Error(json.error);
+        urls.push(json.url);
+      }
+      setForm((f) => ({ ...f, photos: [...(f.photos ?? []), ...urls] }));
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Erreur upload photo");
+    } finally {
+      setUploadingPhoto(false);
+      if (photoInputRef.current) photoInputRef.current.value = "";
+    }
+  }
+
+  function removePhoto(url: string) {
+    setForm((f) => ({ ...f, photos: (f.photos ?? []).filter((p) => p !== url) }));
   }
 
   const set = (field: string, value: string | number | boolean | null) =>
@@ -361,6 +394,54 @@ export default function EvenementsAdminPage() {
                   </div>
                 )}
               </div>
+              {form.passe && (
+                <div className="mt-5">
+                  <label className="block text-xs font-bold uppercase text-[#2d3235] mb-3">Photos</label>
+                  {(form.photos ?? []).length > 0 && (
+                    <div className="grid grid-cols-3 sm:grid-cols-5 gap-3 mb-3">
+                      {(form.photos ?? []).map((url) => (
+                        <div key={url} className="relative group aspect-square border-2 border-[#2d3235]">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={url} alt="" className="w-full h-full object-cover" />
+                          <button
+                            type="button"
+                            onClick={() => removePhoto(url)}
+                            className="absolute top-1 right-1 bg-[#c24b46] text-white p-0.5 opacity-0 group-hover:opacity-100 transition-opacity border border-white"
+                          >
+                            <X className="w-3 h-3" />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                  <input
+                    ref={photoInputRef}
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    onChange={handlePhotoUpload}
+                    className="hidden"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => photoInputRef.current?.click()}
+                    disabled={uploadingPhoto}
+                    className="flex items-center gap-2 text-xs font-bold uppercase px-4 py-2 border-2 border-dashed border-[#2d3235] text-[#2d3235] hover:bg-[#efeadd] transition-colors disabled:opacity-50"
+                  >
+                    {uploadingPhoto ? (
+                      <>
+                        <ImageIcon className="w-4 h-4 animate-pulse" />
+                        Upload en cours…
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="w-4 h-4" />
+                        Ajouter des photos
+                      </>
+                    )}
+                  </button>
+                </div>
+              )}
               {error && <p className="text-[#c24b46] text-sm font-bold mt-3">{error}</p>}
               <div className="flex gap-3 mt-4">
                 <button

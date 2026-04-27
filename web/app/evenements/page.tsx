@@ -183,25 +183,43 @@ export default async function EvenementsPage() {
           <div className="max-w-7xl mx-auto px-6 py-16">
             <h2 className="text-3xl font-semibold mb-8">Événements passés</h2>
             <div className="grid sm:grid-cols-3 gap-6">
-              {passes.map((p) => (
-                <div
-                  key={p.id}
-                  className="border-2 border-[#2d3235] p-5 hover:bg-[#efeadd] transition-colors"
-                >
-                  <div className="text-xs text-[#5a5f63] uppercase tracking-widest mb-2">
-                    {p.jour} {p.mois}
-                  </div>
-                  <h3 className="font-semibold leading-snug mb-2">{p.titre}</h3>
-                  <div className="flex items-center justify-between text-sm">
-                    <span className="text-[#5a5f63]">{p.type}</span>
-                    {p.participants && (
-                      <span className="text-[#1d8f6d] font-semibold">
-                        {p.participants} participants
-                      </span>
+              {passes.map((p) => {
+                const photos: string[] = p.photos ?? [];
+                return (
+                  <div
+                    key={p.id}
+                    className="border-2 border-[#2d3235] overflow-hidden hover:translate-y-[-2px] transition-transform duration-300"
+                  >
+                    {photos.length > 0 && (
+                      <div className={`grid gap-0.5 bg-[#2d3235] ${photos.length === 1 ? "" : "grid-cols-2"}`}>
+                        {photos.slice(0, 4).map((url, i) => (
+                          // eslint-disable-next-line @next/next/no-img-element
+                          <img
+                            key={url}
+                            src={url}
+                            alt=""
+                            className={`w-full object-cover ${photos.length === 1 ? "h-40" : i === 0 && photos.length === 3 ? "col-span-2 h-28" : "h-28"}`}
+                          />
+                        ))}
+                      </div>
                     )}
+                    <div className="p-5">
+                      <div className="text-xs text-[#5a5f63] uppercase tracking-widest mb-2">
+                        {p.jour} {p.mois}
+                      </div>
+                      <h3 className="font-semibold leading-snug mb-2">{p.titre}</h3>
+                      <div className="flex items-center justify-between text-sm">
+                        <span className="text-[#5a5f63]">{p.type}</span>
+                        {p.participants && (
+                          <span className="text-[#1d8f6d] font-semibold">
+                            {p.participants} participants
+                          </span>
+                        )}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </section>
